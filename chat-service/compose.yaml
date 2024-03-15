@@ -1,0 +1,21 @@
+services:
+  chat-db:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=chat-db'
+      - 'POSTGRES_PASSWORD=123'
+      - 'POSTGRES_USER=postgres'
+    ports:
+      - '5432'
+
+  chat-service:
+    build: .
+    ports:
+      - '8086:8086'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://chat-db:5432/chat-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123
+      SPRING_APPLICATION_NAME: chat-service
+    depends_on:
+      - chat-db

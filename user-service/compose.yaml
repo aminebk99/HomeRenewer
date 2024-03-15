@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  user-db:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_DB: user-db
+      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: postgres
+    ports:
+      - '5432:5432'
+
+  user-service:
+    build: .
+    ports:
+      - '8085:8085'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/user-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123
+      SPRING_APPLICATION_NAME: user-service
+    depends_on:
+      - user-db
+
+
+
